@@ -1,0 +1,144 @@
+You will be [working on this project with our Replit starter code](https://replit.com/github/freeCodeCamp/boilerplate-mean-variance-standard-deviation-calculator).
+
+- Start by importing the project on Replit.
+- Next, you will see a `.replit` window.
+- Select `Use run command` and click the `Done` button.
+
+We are still developing the interactive instructional part of the Python curriculum. For now, here are some videos on the freeCodeCamp.org YouTube channel that will teach you everything you need to know to complete this project:
+
+- [Python for Everybody Video Course](https://www.freecodecamp.org/news/python-for-everybody/) (14 hours)
+- [How to Analyze Data with Python Pandas](https://www.freecodecamp.org/news/how-to-analyze-data-with-python-pandas/) (10 hours)
+
+---
+
+Create a function named `calculate()` in `mean_var_std.py` that uses Numpy to output the mean, variance, standard deviation, max, min, and sum of the rows, columns, and elements in a 3 x 3 matrix.
+
+The input of the function should be a list containing 9 digits. The function should convert the list into a 3 x 3 Numpy array, and then return a dictionary containing the mean, variance, standard deviation, max, min, and sum along both axes and for the flattened matrix.
+
+The returned dictionary should follow this format:
+
+```
+{
+  'mean': [axis1, axis2, flattened],
+  'variance': [axis1, axis2, flattened],
+  'standard deviation': [axis1, axis2, flattened],
+  'max': [axis1, axis2, flattened],
+  'min': [axis1, axis2, flattened],
+  'sum': [axis1, axis2, flattened]
+}
+
+```
+
+If a list containing less than 9 elements is passed into the function, it should raise a `ValueError` exception with the message: "List must contain nine numbers." The values in the returned dictionary should be lists and not Numpy arrays.
+
+For example, `calculate([0,1,2,3,4,5,6,7,8])` should return:
+
+```
+{
+  'mean': [[3.0, 4.0, 5.0], [1.0, 4.0, 7.0], 4.0],
+  'variance': [[6.0, 6.0, 6.0], [0.6666666666666666, 0.6666666666666666, 0.6666666666666666], 6.666666666666667],
+  'standard deviation': [[2.449489742783178, 2.449489742783178, 2.449489742783178], [0.816496580927726, 0.816496580927726, 0.816496580927726], 2.581988897471611],
+  'max': [[6, 7, 8], [2, 5, 8], 8],
+  'min': [[0, 1, 2], [0, 3, 6], 0],
+  'sum': [[9, 12, 15], [3, 12, 21], 36]
+}
+
+```
+
+The unit tests for this project are in `test_module.py`.
+
+## **Development**
+
+For development, you can use `main.py` to test your `calculate()` function. Click the "run" button and `main.py` will run.
+
+## **Testing**
+
+We imported the tests from `test_module.py` to `main.py` for your convenience. The tests will run automatically whenever you hit the "run" button.
+
+## **Submitting**
+
+***mean_var_std.py***
+
+```python
+import numpy as np
+
+def calculate(lst):
+    if len(lst) != 9:
+        raise ValueError("List must contain nine numbers.")
+    
+    # Convert the list into a 3x3 numpy array
+    matrix = np.array(lst).reshape(3, 3)
+    
+    # Calculate mean, variance, standard deviation, max, min, and sum
+    mean = [list(matrix.mean(axis=0)), list(matrix.mean(axis=1)), matrix.mean()]
+    variance = [list(matrix.var(axis=0)), list(matrix.var(axis=1)), matrix.var()]
+    std_dev = [list(matrix.std(axis=0)), list(matrix.std(axis=1)), matrix.std()]
+    max_val = [list(matrix.max(axis=0)), list(matrix.max(axis=1)), matrix.max()]
+    min_val = [list(matrix.min(axis=0)), list(matrix.min(axis=1)), matrix.min()]
+    total_sum = [list(matrix.sum(axis=0)), list(matrix.sum(axis=1)), matrix.sum()]
+    
+    # Return the results in a dictionary
+    return {
+        'mean': mean,
+        'variance': variance,
+        'standard deviation': std_dev,
+        'max': max_val,
+        'min': min_val,
+        'sum': total_sum
+    }
+```
+
+1. **`import numpy as np`**: This line imports the NumPy library and assigns it the alias **`np`**. NumPy is a popular Python library for numerical computing, especially for handling arrays and matrices.
+2. **`def calculate(lst):`**: This line defines a function named **`calculate`** that takes one parameter, **`lst`**, which is expected to be a list containing 9 numbers.
+3. **`if len(lst) != 9:`**: This line checks if the length of the input list **`lst`** is not equal to 9. If the list doesn't contain exactly 9 numbers, it raises a **`ValueError`** with the message "List must contain nine numbers."
+4. **`matrix = np.array(lst).reshape(3, 3)`**: This line converts the input list **`lst`** into a NumPy array and reshapes it into a 3x3 matrix. This assumes that the input list contains exactly 9 elements, as checked in the previous line.
+5. **`mean = [list(matrix.mean(axis=0)), list(matrix.mean(axis=1)), matrix.mean()]`**: This line calculates the mean along the rows (**`axis=0`**), columns (**`axis=1`**), and overall mean of the matrix using NumPy's **`mean`** function. It stores the results in a list **`mean`**.
+6. Similarly, **`variance`**, **`std_dev`**, **`max_val`**, **`min_val`**, and **`total_sum`** are calculated for the variance, standard deviation, maximum, minimum, and sum respectively using appropriate NumPy functions (**`var`**, **`std`**, **`max`**, **`min`**, **`sum`**).
+7. **`return {...}`**: This line returns a dictionary containing the calculated statistical properties (mean, variance, standard deviation, max, min, and sum) of the input matrix. The keys of the dictionary correspond to the names of the statistical properties, and the values are lists containing the calculated values along the rows, columns, and the overall matrix.
+
+***main.py***
+
+```python
+from mean_var_std import calculate
+
+# Test the calculate function
+print(calculate([0, 1, 2, 3, 4, 5, 6, 7, 8]))
+```
+
+1. **`from mean_var_std import calculate`**: This line imports the **`calculate`** function from the **`mean_var_std`** module. The **`mean_var_std`** module contains the implementation of the **`calculate`** function, which computes various statistical properties of a 3x3 matrix.
+2. **`print(calculate([0, 1, 2, 3, 4, 5, 6, 7, 8]))`**: This line calls the **`calculate`** function with a list of 9 numbers **`[0, 1, 2, 3, 4, 5, 6, 7, 8]`** as input. This list represents the elements of a 3x3 matrix. The **`calculate`** function then processes this input list and returns a dictionary containing statistical properties such as mean, variance, standard deviation, maximum, minimum, and sum of the rows, columns, and elements in the matrix. Finally, the **`print`** statement displays the returned dictionary.
+
+***test_module.py***
+
+```python
+import unittest
+from mean_var_std import calculate
+
+class TestMeanVarStd(unittest.TestCase):
+    
+    def test_calculate(self):
+        result = calculate([0, 1, 2, 3, 4, 5, 6, 7, 8])
+        expected_result = {
+            'mean': [[3.0, 4.0, 5.0], [1.0, 4.0, 7.0], 4.0],
+            'variance': [[6.0, 6.0, 6.0], [0.6666666666666666, 0.6666666666666666, 0.6666666666666666], 6.666666666666667],
+            'standard deviation': [[2.449489742783178, 2.449489742783178, 2.449489742783178], [0.816496580927726, 0.816496580927726, 0.816496580927726], 2.581988897471611],
+            'max': [[6, 7, 8], [2, 5, 8], 8],
+            'min': [[0, 1, 2], [0, 3, 6], 0],
+            'sum': [[9, 12, 15], [3, 12, 21], 36]
+        }
+        self.assertDictEqual(result, expected_result)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+1. **`import unittest`**: This line imports the **`unittest`** module, which provides a framework for organizing and running tests.
+2. **`from mean_var_std import calculate`**: This line imports the **`calculate`** function from the **`mean_var_std`** module. This function is the one being tested in this unit test.
+3. **`class TestMeanVarStd(unittest.TestCase):`**: This line defines a test case class named **`TestMeanVarStd`** that inherits from **`unittest.TestCase`**. Test cases are organized into classes, and each test case is represented by a method within the class.
+4. **`def test_calculate(self):`**: This line defines a test method named **`test_calculate`** within the **`TestMeanVarStd`** class. Test methods in **`unittest`** must start with the word **`test`**. This method will test the **`calculate`** function.
+5. **`result = calculate([0, 1, 2, 3, 4, 5, 6, 7, 8])`**: This line calls the **`calculate`** function with a sample input **`[0, 1, 2, 3, 4, 5, 6, 7, 8]`** and stores the result in the **`result`** variable.
+6. **`expected_result = { ... }`**: This line defines the expected result of the **`calculate`** function for the given input. It specifies the expected mean, variance, standard deviation, maximum, minimum, and sum of the matrix.
+7. **`self.assertDictEqual(result, expected_result)`**: This line asserts that the **`result`** returned by the **`calculate`** function matches the **`expected_result`**. If the two dictionaries are not equal, the test will fail and provide details about the differences.
+8. **`if __name__ == '__main__': unittest.main()`**: This conditional block ensures that the **`unittest.main()`** function is only called when the script is executed directly, not when it's imported as a module. This line runs the tests defined in the **`TestMeanVarStd`** class.
+
+End Result: https://replit.com/@ryanjoseph0816/mvsdc
